@@ -1,0 +1,95 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    background-color: aquamarine;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+section{
+    text-align: center;
+}
+
+#container{
+    background-color: #f1f5f9;
+
+    width: 90%;
+    max-width: 880px;
+    margin-top: 30px;
+    padding: 15px 0px;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.addTaskFormItem{
+    padding-left: 5px;
+    margin: 5px 0px;
+    width: 90%;
+    height: 25px;
+    border: 1px solid;
+    box-sizing: border-box;
+}
+
+textarea{
+    min-height: 25px;
+    resize: vertical;
+
+}
+
+
+
+#taskContainer{
+    background-color: #EEEEEE;
+
+    width: 90%;
+    height: 60px;
+    margin: auto;
+    margin-top: 10px;
+    padding-left: 5px;
+    box-sizing: border-box;
+
+    position: relative;
+    text-align: initial;
+    border: 1px solid #CCCCCC;
+}
+
+#checkContainer{
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#descriptionContainer{
+    display: inline-block;
+    width: 90%;
+    margin-left: 20px;
+    /* padding-right: 20px;
+    box-sizing: border-box; */
+}
+
+#explicationContainer{    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.icon{
+    position: absolute;
+    right: 2px;
+    display: inline-block;
+}
+
+#editContainer{
+    top: 2px;
+}
+
+#deleteContainer{
+    bottom: -2px;
+}
+
+img{
+    width: 20px;
+}
