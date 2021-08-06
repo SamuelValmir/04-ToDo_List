@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<!-- Built in 04/08/2021 by Samuel Valmir -->
+<!-- Built in 05/08/2021 by Samuel Valmir 
+
+null, indefined, Date, class(function), JSON-->
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/style.css">
-    <script>
+    <script src="./JS/script.js">
+        // localStorage.setItem()
 
+        // function updateTask() {
+
+        // }
     </script>
     <title>ToDo</title>
 </head>
@@ -19,43 +25,20 @@
                 <h1>TODO LIST</h1>
             </div>
 
-
-            <div id="addTaskForm">
-                <input class="addTaskFormItem" type="text" name="taskForm" placeholder="Ex: Conferência"> <br>
-                <textarea class="addTaskFormItem" type="text" name="explicationForm"
-                    placeholder="Explicação"></textarea><br>
-                <input class="addTaskFormItem" type="date" name="dateToFinishForm"> <br>
-                <input class="addTaskFormItem" type="time" name="timeToFinishForm"> <br>
-                <input class="addTaskFormItem" type="button" value="Add Task"> <br>
-            </div>
-
-
-            <div id="taskContainer">
-                <div id="checkContainer">
-                    <input type="checkbox" name="" id="">
+            <!-- <form method="GET" action="./index.html"></form> -->
+                <div id="form">
+                    <input type="number" name="id" id="id">
+                    <input id="taskForm" class="addTaskFormItem" type="text" name="taskForm" placeholder="Ex: Event"> <br>
+                    <textarea id="explicationForm" class="addTaskFormItem" type="text" name="explicationForm"
+                        placeholder="Explication"></textarea><br>
+                    <input id="dateToFinishForm" class="addTaskFormItem" type="date" name="dateToFinishForm"> <br>
+                    <input id="timeToFinishForm" class="addTaskFormItem" type="time" name="timeToFinishForm"> <br>
+                    <input id="addTaskForm" class="addTaskFormItem" type="submit" value="Add Task" onclick="checkFields(this)"> <br>
                 </div>
+            <!-- </form> -->
 
-                <div id="descriptionContainer">
-                    <h4 id="task">Comprar uma casa</h4>
 
-                    <div id="explicationContainer">
-                        <p id="explication"></p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo illo,
-                        totam maxime adipisci
-                        atque illum repudiandae ad quasi sed ipsam obcaecati labore, delectus iure cum repellat
-                        ratione expedita id! Tenetur.</p>
-                    </div>
-
-                    <p id="dateToFinish">06/08/2021</p>
-                </div>
-
-                <div id="editContainer" class="icon">
-                    <img src="./Assets/Icons/edit-icon.png" alt="edit icon" title="edit icon">
-                </div>
-
-                <div id="deleteContainer" class="icon">
-                    <img src="./Assets/Icons/delete-icon.png" alt="delete icon" title="delete icon">
-                </div>
-            </div>
+    
         </div>
     </section>
 </body>

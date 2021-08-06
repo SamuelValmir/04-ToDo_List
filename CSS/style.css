@@ -64,6 +64,9 @@ textarea{
 
 #descriptionContainer{
     display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     width: 90%;
     margin-left: 20px;
     /* padding-right: 20px;
