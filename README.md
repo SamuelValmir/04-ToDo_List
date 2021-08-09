@@ -1,5 +1,5 @@
 # ToDo_List
- Program to manage task.
+ Program to manage tasks. Allowing to make CRUD with local storage
 
 # Built in 05/08/2021- 09/08/2021 by Samuel Valmir 
 
