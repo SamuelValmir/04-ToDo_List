@@ -1,129 +1,64 @@
-
-/*
- localStorage.removeItem("canStorageTasksJson")
- localStorage.clear("canStorageTasksJson")
- localStorage.removeItem("tasksJson")
- localStorage.clear("tasksJson")
-*/
-
-// console.log(localStorage)
 //System for not reset the value of the tasksJson stored in "local storage"
+//It's important to make just one instance of the "database"/local storage
 let canStorageTasksJson = localStorage.getItem("canStorageTasksJson");
 
-if (canStorageTasksJson == null){
+if (canStorageTasksJson == null) {
     localStorage.setItem("tasksJson", "");
     localStorage.setItem("canStorageTasksJson", false)
-    console.log("defined")
+    console.log("Local storage defined")
 }
 
+window.onload = function () {
 
-window.onload = function(){
-    let tasksJson = localStorage.getItem("tasksJson");
-    
-    //If Json tasks in local storage is not empty...
-    if (tasksJson != ""){
-        console.log(localStorage.getItem("tasksJson"));
-        tasks = JSON.parse(localStorage.getItem("tasksJson"));
-        for (const task of tasks) {
-            console.log("task:");
-            console.log(task);
-            addTask(task);
+    //Shows each task on screen by writing in HTML
+    {
+        let tasksJson = localStorage.getItem("tasksJson");
+
+        //If Json tasks in local storage is not empty...
+        if (tasksJson != "") {
+            tasks = JSON.parse(tasksJson);
+            for (const task of tasks) {
+                addTask(task);
+            }
         }
     }
 }
 
-function deleteTask(id){
-
-    console.log("id:")
-    console.log(id)
-
-    tasks = JSON.parse(localStorage.getItem("tasksJson"));
-    tasks.splice(tasks[id - 1], 1);
-    console.log("tasks:")
-    console.log(tasks)
-    localStorage.setItem("tasksJson", tasks);
-}
-
-
-
-
 //Main Class (Task)
-function Task(id, title, explication, dateToFinish, dateAdded) {
+function Task(id, title, explication, dateToFinish, timeToFinish, dateAdded, timeAdded) {
     this.id = id;
     this.title = title;
     this.explication = explication;
     this.dateToFinish = dateToFinish;
+    this.timeToFinish = timeToFinish;
     this.dateAdded = dateAdded;
+    this.timeToFinish = timeToFinish;
     this.finishedDate;
 }
 
-function addTask(task, tasks){
-
-    function findIndex(list, obj) {
-        return list.findIndex((current) =>
-          Object.keys(current).every((key) => obj[key] === current[key])
-        );
-      }
-    let container = document.getElementById('container');
-    container.innerHTML +=
-    "<div id='taskContainer'>" +
-        "<div id='checkContainer'>" + 
-            "<input type='checkbox' id='completed'>" + 
-        "</div>" + 
-        
-        "<div id='descriptionContainer'>" + 
-            "<h4 id='task'>"+ task.title +"</h4>" + 
-
-            "<div id='explicationContainer'>" +
-                task.explication+
-            "</div>" +
-
-            "<p id='dateToFinish'>" + task.dateToFinish + "</p>" +
-        "</div>" +
-
-        "<div id='editContainer' class='icon'>" +
-            "<img src='./Assets/Icons/edit-icon.png' alt='edit icon' title='edit icon'>" +
-        "</div>" +
-
-        "<div id='deleteContainer' class='icon' onclick='deleteTask(" + findIndex(tasks, task) + ")'>" +
-        //!I need to make the id auto adjust itself, remake it count, or find the index of an element by searching a match of the value of each property of the element
-            "<img src='./Assets/Icons/delete-icon.png' alt='delete icon' title='delete icon'>" +
-        "</div>" +
-    "</div>";
-}
-
-function checkFields(element) {
-    saveTask();
-    loadNewTask();
-    return
-    let task = document.getElementsByName('taskForm')[0]
-    if (task.value == '' || task.value == null || task.value == undefined) {
+function checkFields() {
+    //Don't allow the task title be empty
+    let task = document.getElementById('taskForm').value;
+    if (task == '' || task == null || task == undefined) {
         alert('Task title must be filled!')
     } else {
-        // alert('Task Saved with success!')
+        //Analyze if it will save or edit a task based on presence or not of the id in HTML.
+        const id = document.getElementById("id").value;
+        saveTask(id);
+        loadNewTask();
+
+        alert('Task saved with success!');
     }
-    //* window.location.href = 'index.html';
 }
 
-function loadNewTask() {
-    //Parses json tasks to array
-    let tasks = JSON.parse(localStorage.getItem("tasksJson"));
-
-    //Picks up the last item of the task array
-    let task = tasks[tasks.length - 1];
-
-    //Adds a task on the html
-    addTask(task, tasks);
-}
-
-function saveTask(){
+function saveTask(id) {
     let tasksLength = 0;
     let tasks = Array()
 
     let tasksJson = localStorage.getItem("tasksJson");
 
     //If Json tasks in local storage is not empty...
-    if (tasksJson != ""){
+    if (tasksJson != "") {
         //Parses json tasks to array
         tasks = JSON.parse(tasksJson)
         //Redefines the length of the tasks
@@ -131,14 +66,10 @@ function saveTask(){
     }
 
     //Picks up all the values of the form
-    let id = tasksLength + 1;
     let title = document.getElementById('taskForm').value;
     let explication = document.getElementById('explicationForm').value;
     let dateToFinish = document.getElementById('dateToFinishForm').value;
     let timeToFinish = document.getElementById('timeToFinishForm').value;
-
-    //Joins up the date to finish with the time to finish through template string
-    let fullDateToFinish = dateToFinish + ' ' + timeToFinish; // layout: 'YYYY-MM-DD/hh:mm'
 
     //Picks up today's date
     let dateObj = new Date();
@@ -148,54 +79,149 @@ function saveTask(){
     //Picks up today's time
     let hourAdded = dateObj.getHours();
     let minAdded = dateObj.getMinutes();
-
     //formats time that the task wad added
     let dateAdded = yearAdded + '-' + monthAdded + '-' + dayAdded //layout: 'YYYY-MM-DD'
     let timeAdded = hourAdded + ':' + minAdded; //layout: 'hh:mm'
-    let fullDateAdded = dateAdded + ' ' + timeAdded;
 
-    //Instantiates a task
-    let taskObj = new Task(id, title, explication, fullDateToFinish, fullDateAdded);
-    //Transform task object to JSON and save it in local storage.
-    //The save is based on the id of the task
-    tasks.push(taskObj);
+    let taskObj;
+    //If id its empty...
+    if (id == "" || id == null || id == undefined) {
+        //It'll receive a value based on the length of tasks.
+        id = tasksLength + 1;
+        //Instantiates a task
+        taskObj = new Task(id, title, explication, dateToFinish, timeToFinish, dateAdded, timeAdded);
+        //Append object task in array
+        tasks.push(taskObj);
+    } else {
+        taskObj = tasks[id - 1];
+        //It'll receive a value based on task object id.
+        id = taskObj.id;
+        taskObj.title = title;
+        taskObj.explication = explication;
+        taskObj.dateToFinish = dateToFinish;
+        taskObj.timeToFinish = timeToFinish;
+    }
 
-    // localStorage.setItem("tasks", JSON.stringify(task));
-    // console.log(localStorage.getItem("tasks"));
-    
+    //save tasks array in local storage
     localStorage.setItem("tasksJson", JSON.stringify(tasks));
+    window.location.href = "index.html";
+}
+
+function loadNewTask() { //Picks up the last object of the array tasks and sends for addTask function to be added on screen
+    //Parses json tasks to array
+    let tasks = JSON.parse(localStorage.getItem("tasksJson"));
+
+    //Picks up the last item of the task array
+    let task = tasks[tasks.length - 1];
+
+    addTask(task, tasks);
+}
+
+function addTask(task) { //Appends one task in HTML
+    //Formats how it'll be showed in HTML the date to finish of the task
+    let fullDateToFinish = "";
+    const timeToFinish = task.timeToFinish
+    if (timeToFinish == "" || timeToFinish == null || timeToFinish == undefined) {
+        fullDateToFinish = task.dateToFinish;
+    } else {
+        fullDateToFinish = task.dateToFinish + "/" + timeToFinish;
+    }
+
+    //Params variable was made because was no possible to send two parameters in checkBox onclick function
+    let params = JSON.stringify({checkBoxId:"checkBox" + task.id, taskContentId:"taskContent" + task.id});
+    let container = document.getElementById('container');
+    container.innerHTML +=
+        "<div id='taskContainer'>" +
+            "<div id='checkContainer'>" +
+                "<input type='checkbox' id='checkBox" + task.id + "' onclick=putLine(" + params + ")>" +
+            "</div>" +
+
+            "<div id='descriptionContainer'>" +
+                "<div id='taskContent" + task.id + "'>" +
+                    "<h4 id='task'>" + task.title + "</h4>" +
+                    "<div id='explicationContainer'>" +
+                        task.explication +
+                    "</div>" +
+                    "<p id='dateToFinish'>" + fullDateToFinish + "</p>" +
+                "</div>" +
+            "</div>" +
+
+            "<div id='editContainer' class='icon' onclick='editTask(" + task.id + ")'>" +
+                "<img src='./Assets/Icons/edit-icon.png' alt='edit icon' title='edit'>" +
+            "</div>" +
+
+            "<div id='deleteContainer' class='icon' onclick='deleteTask(" + task.id + ")'>" +
+                "<img src='./Assets/Icons/delete-icon.png' alt='delete icon' title='delete'>" +
+            "</div>" +
+        "</div>";
+}
+
+function putLine(params){ //Decorates the task as press checkBox
+    let checkBox = document.getElementById(params.checkBoxId);
+    let content = document.getElementById(params.taskContentId);
+
+    if (checkBox.checked == true){
+        content.style.textDecoration = "line-through";
+        content.style.opacity = "50%";
+        return;
+    } 
+    content.style.textDecoration = "none";
+    content.style.opacity = "100%";
 
 }
-    
-    
-    
 
-    /*
-     <div id='taskContainer'>
-                <div id='checkContainer'>
-                    <input type='checkbox' name='' id=''>
-                </div>
+function editTask(id) {
+    //Picks the task string stored in local storage and parse to object
+    tasks = JSON.parse(localStorage.getItem("tasksJson"));
+    task = tasks[id - 1];
+    //Edits a task by your id
 
-                <div id='descriptionContainer'>
-                    <h4 id='task'>Comprar uma casa</h4>
+    {
+        //Sets up all the values of the form
+        let htmlId = document.getElementById("id");
+        htmlId.value = task.id;
 
-                    <div id='explicationContainer'>
-                        <p id='explication'></p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo illo,
-                        totam maxime adipisci
-                        atque illum repudiandae ad quasi sed ipsam obcaecati labore, delectus iure cum repellat
-                        ratione expedita id! Tenetur.</p>
-                    </div>
+        let title = document.getElementById('taskForm');
+        title.value = task.title;
 
-                    <p id='dateToFinish'>06/08/2021</p>
-                </div>
+        let explication = document.getElementById('explicationForm');
+        explication.value = task.explication;
 
-                <div id='editContainer' class='icon'>
-                    <img src='./Assets/Icons/edit-icon.png' alt='edit icon' title='edit icon'>
-                </div>
+        let formDateToFinish = document.getElementById('dateToFinishForm');
+        const tDateToFinish = task.dateToFinish;
+        if (tDateToFinish != "" || tDateToFinish != null || tDateToFinish != undefined) {
+            formDateToFinish.value = tDateToFinish;
+        }
 
-                <div id='deleteContainer' class='icon'>
-                    <img src='./Assets/Icons/delete-icon.png' alt='delete icon' title='delete icon'>
-                </div>
-            </div>
-    */
+        let formTimeToFinish = document.getElementById('timeToFinishForm');
+        const tTimeToFinish = task.timeToFinish;
+        if (tTimeToFinish != "" || tTimeToFinish != null || tTimeToFinish != undefined) {
+            formTimeToFinish.value = tTimeToFinish;
+        }
+        document.getElementById("addTaskForm").value = "Edit Task"
+    }
+}
 
+function deleteTask(id) {
+    //Picks the task string stored in local storage and parse to object
+    tasks = JSON.parse(localStorage.getItem("tasksJson"));
+    //Deletes a task by your id
+    tasks.splice(id - 1, 1);
+
+    reorderId();
+
+    localStorage.setItem("tasksJson", JSON.stringify(tasks));
+
+    //reload screen
+    window.location.href = "index.html";
+}
+
+function reorderId() { //Reorder each id of the task.
+    //This is important to delete the correct element. This makes a relationship between the position of the task in array and your id.
+    if (tasks.length != 0) {
+        for (const sPos in tasks) {
+            const iPos = parseInt(sPos);
+            tasks[iPos].id = (iPos + 1)
+        }
+    }
+}

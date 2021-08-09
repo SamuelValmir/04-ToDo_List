@@ -4,7 +4,7 @@
 }
 
 body{
-    background-color: aquamarine;
+    background-color: rgb(44, 49, 47);
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -35,9 +35,13 @@ section{
 textarea{
     min-height: 25px;
     resize: vertical;
-
 }
 
+
+#addTaskForm:hover{
+    cursor: pointer;
+    font-weight: bolder;
+}
 
 
 #taskContainer{
@@ -73,7 +77,7 @@ textarea{
     box-sizing: border-box; */
 }
 
-#explicationContainer{    
+#explicationContainer{   
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -95,4 +99,10 @@ textarea{
 
 img{
     width: 20px;
+}
+
+@media screen and (max-width: 500px){
+    #descriptionContainer{
+        width: 80%;
+    }
 }

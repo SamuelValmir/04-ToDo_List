@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<!-- Built in 05/08/2021 by Samuel Valmir 
+<!-- Built in 05/08/2021- 09/08/2021 by Samuel Valmir 
 
-null, indefined, Date, class(function), JSON-->
+I have learned about:
+-null, undefined, pick up dates, class(function), JSON, local storage, insert html by javascript,
+    make a system to save just one time a data on storage, I improved my english by making comments,
+    set style in html through javascript-->
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/style.css">
-    <script src="./JS/script.js">
-        // localStorage.setItem()
-
-        // function updateTask() {
-
-        // }
-    </script>
+    <script src="./JS/script.js"></script>
     <title>ToDo</title>
 </head>
 
@@ -25,20 +22,16 @@ null, indefined, Date, class(function), JSON-->
                 <h1>TODO LIST</h1>
             </div>
 
-            <!-- <form method="GET" action="./index.html"></form> -->
-                <div id="form">
-                    <input type="number" name="id" id="id">
-                    <input id="taskForm" class="addTaskFormItem" type="text" name="taskForm" placeholder="Ex: Event"> <br>
-                    <textarea id="explicationForm" class="addTaskFormItem" type="text" name="explicationForm"
-                        placeholder="Explication"></textarea><br>
-                    <input id="dateToFinishForm" class="addTaskFormItem" type="date" name="dateToFinishForm"> <br>
-                    <input id="timeToFinishForm" class="addTaskFormItem" type="time" name="timeToFinishForm"> <br>
-                    <input id="addTaskForm" class="addTaskFormItem" type="submit" value="Add Task" onclick="checkFields(this)"> <br>
-                </div>
-            <!-- </form> -->
-
-
-    
+            <div id="form">
+                <input type="number" id="id" hidden>
+                <input id="taskForm" class="addTaskFormItem" type="text" placeholder="Ex: Event"> <br>
+                <textarea id="explicationForm" class="addTaskFormItem" type="text"
+                    placeholder="Explication"></textarea><br>
+                <input id="dateToFinishForm" class="addTaskFormItem" type="date" max="9999-12-31"> <br>
+                <input id="timeToFinishForm" class="addTaskFormItem" type="time"> <br>
+                <input id="addTaskForm" class="addTaskFormItem" type="button" value="Add Task" onclick="checkFields()">
+                <br>
+            </div>
         </div>
     </section>
 </body>
