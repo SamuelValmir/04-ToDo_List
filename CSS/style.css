@@ -33,6 +33,7 @@ section{
 }
 
 textarea{
+    padding-top: 3px;
     min-height: 25px;
     resize: vertical;
 }
